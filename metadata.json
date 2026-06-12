@@ -1,0 +1,6 @@
+{
+  "name": "Vanilla Kofe və Şirniyyat Evi",
+  "description": "Vanilla Kofe və Şirniyyat Evi üçün rəqəmsal QR menyu. Müştərilər üçün tam məhsul siyahısı və qiymətlər. No checkout/tray interactions.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

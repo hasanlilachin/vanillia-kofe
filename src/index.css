@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Outfit", ui-serif, Georgia, serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  --color-brand-brown: #3D2B1F;
+  --color-brand-beige: #F2EDE7;
+  --color-brand-muted: #8C7B6E;
+  --color-brand-gold: #B8860B;
+}
+
+/* Custom gorgeous styling for layout visual enhancement */
+body {
+  font-family: var(--font-sans);
+  background-color: #FCF9F5;
+  color: #3D2B1F;
+}
+
+/* Print configuration to clean up table cards when print is requested */
+@media print {
+  body {
+    background-color: white !important;
+    color: black !important;
+  }
+  header, 
+  #menu-section-nav, 
+  #menu-items-grid, 
+  #tray-floating-button, 
+  #footer, 
+  .print\:hidden {
+    display: none !important;
+  }
+  #qr-generator-studio {
+    border: none !important;
+    shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    height: 100vh !important;
+  }
+}
