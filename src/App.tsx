@@ -4,9 +4,14 @@ import { TrayItem, Language } from './types';
 import MenuHeader from './components/MenuHeader';
 import MenuItemCard from './components/MenuItemCard';
 import MyTrayModal from './components/MyTrayModal';
-import QrCodePrinter from './components/QrCodePrinter';
+import CafeClockStatus from './components/CafeClockStatus';
 import * as Icons from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+
+interface WeatherState {
+  temp: number;
+  isRaining: boolean;
+}
 
 export default function App() {
   // Locale State
@@ -24,7 +29,30 @@ export default function App() {
   const [trayItems, setTrayItems] = useState<TrayItem[]>([]);
   const [isTrayOpen, setIsTrayOpen] = useState<boolean>(false);
 
-  // Read URL params and load local storage on mount
+  // Weather & Live Suggestions State
+  const [weather, setWeather] = useState<WeatherState | null>(null);
+  const [weatherLoading, setWeatherLoading] = useState<boolean>(true);
+
+  // Fetch local weather for Imishli (Lat: 39.8711, Lon: 48.0600)
+  const fetchWeather = async () => {
+    try {
+      const res = await fetch(
+        'https://api.open-meteo.com/v1/forecast?latitude=39.8711&longitude=48.0600&current=temperature_2m,weather_code'
+      );
+      const data = await res.json();
+      if (data && data.current) {
+        setWeather({
+          temp: data.current.temperature_2m,
+          isRaining: data.current.weather_code >= 51,
+        });
+      }
+    } catch (err) {
+      console.error("Failed to retrieve current weather data", err);
+    } finally {
+      setWeatherLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const params = new URLSearchParams(window.location.search);
@@ -33,7 +61,6 @@ export default function App() {
         setTableNumber(tableParam);
       }
 
-      // Restore tray from local storage if available
       try {
         const savedTray = localStorage.getItem('vanillia_menu_tray');
         if (savedTray) {
@@ -43,17 +70,19 @@ export default function App() {
         console.error("Failed to parse saved tray from local storage", err);
       }
     }
+
+    fetchWeather();
+    const weatherInterval = setInterval(fetchWeather, 600000);
+
+    return () => clearInterval(weatherInterval);
   }, []);
 
-  // Save tray to local storage whenever it changes
   useEffect(() => {
     localStorage.setItem('vanillia_menu_tray', JSON.stringify(trayItems));
   }, [trayItems]);
 
-  // Handle Adding Item to the Order Tray
   const handleAddToTray = (newTrayItem: Omit<TrayItem, 'id'>) => {
     setTrayItems((prevItems) => {
-      // Find if an identical item (same menuItem id AND same customizations) already exists in the tray
       const existingItemIndex = prevItems.findIndex(
         (item) => 
           item.menuItem.id === newTrayItem.menuItem.id &&
@@ -64,19 +93,16 @@ export default function App() {
       );
 
       if (existingItemIndex > -1) {
-        // Increment quantity of existing customized item
         const updatedItems = [...prevItems];
         updatedItems[existingItemIndex].quantity += 1;
         return updatedItems;
       } else {
-        // Add as a new individual customized choice
         const uniqueId = `${newTrayItem.menuItem.id}-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`;
         return [...prevItems, { ...newTrayItem, id: uniqueId }];
       }
     });
   };
 
-  // Update Item Quantity in Tray
   const handleUpdateQuantity = (id: string, delta: number) => {
     setTrayItems((prevItems) => 
       prevItems
@@ -90,22 +116,17 @@ export default function App() {
     );
   };
 
-  // Remove Item from Tray
   const handleRemoveItem = (id: string) => {
     setTrayItems((prevItems) => prevItems.filter((item) => item.id !== id));
   };
 
-  // Clear entire Tray
   const handleClearTray = () => {
     setTrayItems([]);
   };
 
-  // Filtered Menu Items Calculations
   const filteredItems = menuItems.filter((item) => {
-    // 1. Matches Category
     const categoryMatch = selectedCategory === 'all' || item.category === selectedCategory;
     
-    // 2. Matches Search term (in either language)
     const normalizedQuery = searchQuery.toLowerCase().trim();
     const searchMatch = !normalizedQuery || 
       item.nameAz.toLowerCase().includes(normalizedQuery) ||
@@ -113,7 +134,6 @@ export default function App() {
       item.descriptionAz.toLowerCase().includes(normalizedQuery) ||
       item.descriptionEn.toLowerCase().includes(normalizedQuery);
 
-    // 3. Matches Dietary tag filters
     let tagMatch = true;
     if (activeTag === 'vegan') {
       tagMatch = item.tags?.includes('vegan') || false;
@@ -128,15 +148,89 @@ export default function App() {
     return categoryMatch && searchMatch && tagMatch;
   });
 
-  // Calculate Tray Totals
   const traySubtotal = trayItems.reduce((sum, item) => sum + (item.finalUnitPrice * item.quantity), 0);
   const trayCount = trayItems.reduce((sum, item) => sum + item.quantity, 0);
+
+  const getDynamicRecommendation = () => {
+    if (!weather) return null;
+    const currentHour = new Date().getHours();
+    const { temp, isRaining } = weather;
+
+    if (temp < 18 || isRaining) {
+      if (currentHour >= 8 && currentHour < 12) {
+        return {
+          text: lang === 'az' 
+            ? "Səhər sərinliyi üçün isidici Kapuçino və zərif Badambura əla seçimdir!" 
+            : "A warm Cappuccino and fresh Badambura are a great match for a cool morning!",
+          itemIds: ["h4", "m1"]
+        };
+      }
+      if (currentHour >= 12 && currentHour < 18) {
+        return {
+          text: lang === 'az'
+            ? "Bu gün hava sərindir. Sizi isidəcək zərif Qaymaqlı Raf və dadlı Spartak tortu tövsiyə edirik."
+            : "It is chilly today. We suggest a smooth Creamy Raf and a slice of Spartak cake to warm you up.",
+          itemIds: ["h9", "d9"]
+        };
+      }
+      return {
+        text: lang === 'az'
+          ? "Sərin axşam üçün ətirli dağ kəklikotu çayı və isti şokoladlı Sufle harmoniyası."
+          : "A warm cup of herbal mountain tea paired with hot chocolate Soufflé is ideal for a chilly evening.",
+        itemIds: ["t3", "d7"]
+      };
+    }
+
+    if (temp >= 24) {
+      if (currentHour >= 8 && currentHour < 12) {
+        return {
+          text: lang === 'az'
+            ? "Günün isti başlanğıcı üçün soyuq Buzlu Latte və yüngül Magnolia deserti!"
+            : "Keep cool this morning with an Iced Latte and a light Magnolia dessert!",
+          itemIds: ["c1", "d6"]
+        };
+      }
+      if (currentHour >= 12 && currentHour < 18) {
+        return {
+          text: lang === 'az'
+            ? "Günorta istisində təravətlənmək üçün tropik Mango Maracuja Limonadı və dondurmalı Affoqato seçin!"
+            : "Cool down this afternoon with an exotic Mango Maracuja Lemonade and Affogato!",
+          itemIds: ["l2", "h10"]
+        };
+      }
+      return {
+        text: lang === 'az'
+          ? "İsti yay axşamı üçün sərinlədici giləmeyvə limonadı və premium dondurma."
+          : "A chilled forest berry lemonade and premium ice cream scoop for a warm evening.",
+        itemIds: ["l6", "ic2"]
+      };
+    }
+
+    if (currentHour >= 12 && currentHour < 18) {
+      return {
+        text: lang === 'az'
+          ? "Gözəl günorta havasında klassik Latte və San Sebastian ləzzətindən zövq alın."
+          : "Enjoy the pleasant afternoon weather with a classic Latte and San Sebastian cheesecake.",
+        itemIds: ["h5", "d1"]
+      };
+    }
+    return {
+      text: lang === 'az'
+        ? "Günün bu vaxtı üçün sevilən zərif Flat White və milli Şəkərbura tövsiyəmizdir."
+        : "We highly recommend a velvety Flat White and traditional Shekerbura for this hour.",
+      itemIds: ["h6", "m3"]
+    };
+  };
+
+  const activeRecommendation = getDynamicRecommendation();
+  const suggestedProducts = activeRecommendation 
+    ? menuItems.filter(item => activeRecommendation.itemIds.includes(item.id))
+    : [];
 
   return (
     <div className="min-h-screen bg-[#FCF9F5] pb-8 font-sans text-[#3D2B1F] antialiased flex flex-col justify-between">
       
       <div>
-        {/* Dynamic Header Module */}
         <MenuHeader 
           lang={lang} 
           setLang={setLang} 
@@ -144,14 +238,86 @@ export default function App() {
           setTableNumber={setTableNumber} 
         />
 
+        <div className="px-4 py-2 flex justify-center">
+          <CafeClockStatus lang={lang} />
+        </div>
+
+        {weather && activeRecommendation && (
+          <div className="max-w-4xl mx-auto px-4 py-2">
+            <div className="bg-white rounded-2xl border border-[#3D2B1F]/10 p-4 shadow-xs">
+              
+              <div className="flex items-center justify-between border-b border-[#3D2B1F]/5 pb-3 mb-3">
+                <div className="flex items-center gap-2">
+                  <Icons.Sparkles className="w-4 h-4 text-amber-500 animate-pulse" />
+                  <h3 className="text-xs font-black tracking-tight uppercase text-[#3D2B1F]/80">
+                    {lang === 'az' ? 'Günün Təklifi' : 'Today\'s Pick'}
+                  </h3>
+                </div>
+                
+                <div className="flex items-center gap-1.5 bg-[#FCF9F5] px-2.5 py-1 rounded-lg border border-[#3D2B1F]/5">
+                  {weather.isRaining ? (
+                    <Icons.CloudRain className="w-4 h-4 text-blue-500" />
+                  ) : weather.temp >= 24 ? (
+                    <Icons.Sun className="w-4 h-4 text-amber-500" />
+                  ) : (
+                    <Icons.Cloud className="w-4 h-4 text-[#8C7B6E]" />
+                  )}
+                  <span className="text-xs font-bold text-[#3D2B1F] font-mono">
+                    {weather.temp.toFixed(0)}°C
+                  </span>
+                </div>
+              </div>
+
+              <p className="text-xs md:text-sm font-medium text-[#3D2B1F] leading-relaxed mb-4">
+                {activeRecommendation.text}
+              </p>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {suggestedProducts.map((item) => (
+                  <div 
+                    key={item.id} 
+                    className="flex items-center justify-between p-2 rounded-xl bg-[#FCF9F5] border border-[#3D2B1F]/5 hover:border-[#3D2B1F]/20 transition-all"
+                  >
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <img 
+                        src={item.image} 
+                        alt={item.nameAz} 
+                        className="w-10 h-10 rounded-lg object-cover bg-stone-100 shrink-0" 
+                      />
+                      <div className="min-w-0">
+                        <span className="text-xs font-extrabold text-[#3D2B1F] block truncate">
+                          {lang === 'az' ? item.nameAz : item.nameEn}
+                        </span>
+                        <span className="text-[11px] font-bold text-amber-600 block font-mono">
+                          {item.price.toFixed(2)} ₼
+                        </span>
+                      </div>
+                    </div>
+
+                    <button
+                      onClick={() => handleAddToTray({
+                        menuItem: item,
+                        quantity: 1,
+                        finalUnitPrice: item.price,
+                      })}
+                      className="p-1.5 bg-white hover:bg-[#3D2B1F] text-[#3D2B1F] hover:text-white rounded-lg border border-[#3D2B1F]/10 cursor-pointer transition-colors"
+                    >
+                      <Icons.Plus className="w-4 h-4" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+
+            </div>
+          </div>
+        )}
+
         {/* Filters and Navigation layout */}
         <section className="bg-white border-b border-[#3D2B1F]/10 py-4 sticky top-0 z-30 shadow-xs print:hidden" id="menu-section-nav">
           <div className="max-w-7xl mx-auto px-4 space-y-3.5">
             
-            {/* Search Input and Filter tag pills */}
             <div className="flex flex-col md:flex-row gap-3 items-stretch justify-between">
               
-              {/* Search input field */}
               <div className="relative flex-1">
                 <Icons.Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4.5 h-4.5 text-[#8C7B6E]" />
                 <input
@@ -171,7 +337,6 @@ export default function App() {
                 )}
               </div>
 
-              {/* Tag Filtes Pills (Dietary preferences) */}
               <div className="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0 scrollbar-none" id="dietary-tags-rail">
                 {[
                   { id: 'all', labelAz: 'Hamısı', labelEn: 'All' },
@@ -193,7 +358,6 @@ export default function App() {
 
             </div>
 
-            {/* Scrolling categories navigation rail */}
             <div className="flex items-center gap-2 overflow-x-auto py-1 scrollbar-none border-t border-[#3D2B1F]/10 pt-3.5" id="categories-scroller">
               {categories.map((cat) => {
                 const IconComponent = (Icons as any)[cat.icon] || Icons.Utensils;
@@ -204,7 +368,7 @@ export default function App() {
                     key={cat.id}
                     onClick={() => {
                       setSelectedCategory(cat.id);
-                      setSearchQuery(''); // auto reset search to display category clearly
+                      setSearchQuery('');
                     }}
                     className={`flex items-center gap-2 px-4.5 py-3.5 rounded-xl text-xs font-extrabold cursor-pointer transition-all duration-300 shrink-0 select-none ${
                       isSelected 
@@ -238,7 +402,6 @@ export default function App() {
             </div>
           </div>
 
-          {/* Grid Layout of Items */}
           {filteredItems.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {filteredItems.map((item) => (
@@ -251,7 +414,6 @@ export default function App() {
               ))}
             </div>
           ) : (
-            /* Empty State */
             <div className="flex flex-col items-center justify-center text-center py-20 px-4 space-y-4 bg-white rounded-2xl border border-[#3D2B1F]/10">
               <div className="w-16 h-16 rounded-full bg-amber-50 flex items-center justify-center text-[#3D2B1F] border border-[#3D2B1F]/10">
                 <Icons.Coffee className="w-8 h-8" />
@@ -281,69 +443,62 @@ export default function App() {
         </main>
       </div>
 
-      {/* FOOTER SECTION: Standard branding info + interactive QR Creator for Administrative/Demonstration purposes */}
-      <footer className="bg-[#3D2B1F] text-[#FCF9F5]/80 pt-10 pb-16 px-4 mt-12 border-t border-black/20" id="footer">
-        <div className="max-w-7xl mx-auto space-y-8">
-          
-          {/* Logo and contacts */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pb-8 border-b border-white/5">
-            <div>
-              <div className="inline-flex items-center gap-2 mb-2 bg-black/25 p-2.5 rounded-xl border border-white/5">
-                <Icons.Coffee className="w-6 h-6 text-amber-400" />
-                <span className="text-[#FCF9F5] font-extrabold font-serif tracking-wider text-sm select-none">
-                  VANILLIA
-                </span>
-              </div>
-              <p className="text-xs text-[#FCF9F5]/70 leading-relaxed mt-2 max-w-sm">
-                {lang === 'az' 
-                  ? 'Keyfiyyətli qovrulmuş kofe dənələri, ətirli çaylar və ev üsulu təravətli lemonade çeşidləri ilə Bakının premium rəqəmsal menyu ünvanı.' 
-                  : 'Baku\'s premium home for high-quality roasted coffee beans, aromatic teas, and freshly-made artisanal lemonades.'}
-              </p>
+      {/* NEW: GOOGLE REVIEW BANNER CARD */}
+      <section className="max-w-4xl mx-auto px-4 my-8">
+        <div className="bg-gradient-to-r from-[#3D2B1F] via-[#4A3527] to-[#3D2B1F] rounded-3xl p-6 md:p-8 text-center text-white shadow-xl relative overflow-hidden border border-amber-500/20">
+          <div className="relative z-10 flex flex-col items-center">
+            
+            {/* 5 Animated Golden Stars */}
+            <div className="flex items-center gap-1 mb-3">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <Icons.Star 
+                  key={star} 
+                  className="w-6 h-6 text-amber-400 fill-amber-400 animate-bounce" 
+                  style={{ animationDelay: `${star * 0.15}s` }} 
+                />
+              ))}
             </div>
 
-            <div className="space-y-2">
-              <h4 className="text-white text-xs font-bold uppercase tracking-widest">{lang === 'az' ? 'BİZİMLƏ ƏLAQƏ' : 'SAY HELLO'}</h4>
-              <p className="text-xs flex items-center gap-2 text-[#FCF9F5]/75">
-                <Icons.Phone className="w-4 h-4 text-amber-400 shrink-0" />
-                <span>{cafeInfo.phone}</span>
-              </p>
-              <p className="text-xs flex items-center gap-2 text-[#FCF9F5]/75">
-                <Icons.MapPin className="w-4 h-4 text-amber-400 shrink-0" />
-                <span>{lang === 'az' ? cafeInfo.addressAz : cafeInfo.addressEn}</span>
-              </p>
-            </div>
+            <h3 className="text-xl md:text-2xl font-black font-serif mb-2">
+              {lang === 'az' ? 'Xidmətimizi bəyəndiniz?' : 'Enjoyed Your Experience?'}
+            </h3>
+            <p className="text-xs md:text-sm text-stone-300 max-w-md mb-6 leading-relaxed">
+              {lang === 'az' 
+                ? 'Google-da bizə 5 ulduzlu rəy yazaraq Vanillia ailəsinə dəstək olun!' 
+                : 'Help Vanillia Coffee grow by leaving us a 5-star review on Google Maps!'}
+            </p>
 
-            <div className="space-y-2">
-              <h4 className="text-white text-xs font-bold uppercase tracking-widest">{lang === 'az' ? 'HƏR GÜN TƏZƏ' : 'DAILY FRESH'}</h4>
-              <p className="text-xs leading-relaxed text-[#FCF9F5]/70">
-                {lang === 'az' 
-                  ? 'Bütün lemonade içkilərimiz hər gün süzülmüş təbii meyvə ekstraktları və təzə nanə yarpaqları ilə komandamız tərəfindən təzə bişmiş buzla servis edilir.' 
-                  : 'All of our signature lemonades are prepared fresh daily using real fruit extracts, premium herbs, and filtered ice cubes.'}
-              </p>
-            </div>
+            <a
+              href="https://maps.app.goo.gl/xLGwLQT73JugC7qC9"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2.5 bg-[#FEF08A] hover:bg-amber-300 text-[#3D2B1F] font-extrabold px-6 py-3 rounded-full text-xs md:text-sm shadow-lg hover:scale-105 active:scale-95 transition-all cursor-pointer"
+            >
+              <Icons.Star className="w-4 h-4 fill-[#3D2B1F]" />
+              <span>{lang === 'az' ? 'Google-da Rəy Yazın ➔' : 'Leave a Google Review ➔'}</span>
+            </a>
+
           </div>
+        </div>
+      </section>
 
-          {/* Interactive QR printing module in footer (highly integrated owner action workflow) */}
-          <section className="bg-black/25 p-5 rounded-2xl border border-white/5 space-y-4">
-            <div className="flex items-center gap-2.5">
-              <Icons.QrCode className="w-5 h-5 text-amber-400" />
-              <div>
-                <h3 className="text-sm font-bold text-[#FCF9F5] uppercase tracking-wider">
-                  {lang === 'az' ? 'ADMIN PANEL / MASALARA QR KOD ÇAPI' : 'CAFE OWNER QR-MENU DESK'}
-                </h3>
-                <p className="text-[11px] text-[#FCF9F5]/65">
-                  {lang === 'az' 
-                    ? 'Bu alət vasitəsilə masadan masaya uyğunlaşdırılmış QR etiketləri çıxarıb istifadə edə bilərsiniz.' 
-                    : 'Download or print table-top tent cards with pre-assigned table numbers for your establishment.'}
-                </p>
-              </div>
-            </div>
+      {/* FOOTER SECTION WITH LOGO */}
+      <footer className="bg-[#3D2B1F] text-[#FCF9F5]/80 pt-10 pb-16 px-4 border-t border-black/20" id="footer">
+        <div className="max-w-7xl mx-auto flex flex-col items-center text-center">
+          
+          <img 
+            src="/logo.png" 
+            alt="Vanillia Logo" 
+            className="w-16 h-16 object-contain mb-3 rounded-full bg-black/20 border border-amber-400/20 p-1" 
+          />
+          <h3 className="text-lg font-serif font-bold text-white mb-1">
+            Vanillia Şirniyyat Evi
+          </h3>
+          <p className="text-xs text-[#FCF9F5]/60 max-w-md mb-6">
+            {lang === 'az' ? 'Təbii maddələrlə hazırlanan ləziz kofe və şirniyyat dünyası.' : 'Delicious coffee and sweets prepared with natural ingredients.'}
+          </p>
 
-            {/* Reusable QR generator */}
-            <QrCodePrinter lang={lang} />
-          </section>
-
-          <div className="text-center text-xs text-[#FCF9F5]/40 pt-4 flex flex-col sm:flex-row items-center justify-between gap-2.5">
+          <div className="w-full border-t border-white/10 text-xs text-[#FCF9F5]/40 pt-4 flex flex-col sm:flex-row items-center justify-between gap-2.5">
             <p>© {new Date().getFullYear()} {cafeInfo.name}. All rights reserved.</p>
             <p className="text-[11px] font-mono tracking-wider text-[#FCF9F5]/40 select-none">
               v1.4.0 • {lang === 'az' ? 'Rəqəmsal Masa Menyu' : 'Digital Menu Experience'}
@@ -391,13 +546,12 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      {/* Slide-out Order Tray Module Drawer */}
       <MyTrayModal
         isOpen={isTrayOpen}
         onClose={() => setIsTrayOpen(false)}
         trayItems={trayItems}
         lang={lang}
-        tableNumber={tableNumber || '5'} // dynamic fallback table
+        tableNumber={tableNumber || '5'}
         onUpdateQuantity={handleUpdateQuantity}
         onRemoveItem={handleRemoveItem}
         onClearTray={handleClearTray}

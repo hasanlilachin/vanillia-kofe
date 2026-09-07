@@ -42,23 +42,24 @@ export interface CafeInfo {
 
 export const cafeInfo: CafeInfo = {
   name: "Vanillia Kofe və Şirniyyat Evi",
-  taglineAz: "Hər yudumda sevgi, təbii inqrediyentlər və zərif əl işi şirniyyatların əvəzsiz harmoniyası.",
+  taglineAz: "Sevgiylə hazırlanan təbii dad və zərif anların ünvanı.",
   taglineEn: "The perfect harmony of love, natural ingredients, and refined handmade pastries in every bite.",
   addressAz: "Nəcməddin Savalanov 58, 1 nömrəli məktəblə üzbəüz",
   addressEn: "58 Nacmaddin Savalanov, opposite School No.1",
   phone: "050-465-85-25",
   instagram: "vanillia_imishli",
-  tiktok: "vanillia_imishli",
+  tiktok: "vanillia_imisli",
   workingHoursAz: "Hər gün: 08:00 - 00:00",
   workingHoursEn: "Daily: 08:00 - 00:00",
-  wifiName: "Vanillia_Guest_WiFi",
-  wifiPass: "vanillia2026"
+  wifiName: "Vanillia 5G",
+  wifiPass: "vanillia2025"
 };
 
 export const categories: Category[] = [
   { id: "all", nameAz: "Hamısı", nameEn: "All", icon: "Utensils" },
   { id: "coffee", nameAz: "Kofelər", nameEn: "Coffees", icon: "Coffee" },
   { id: "tea", nameAz: "Çaylar", nameEn: "Teas", icon: "GlassWater" },
+  { id: "milkshake", nameAz: "Milkşeyklər", nameEn: "Milkshakes", icon: "Milk" },
   { id: "lemonade", nameAz: "Limonadlar", nameEn: "Lemonades", icon: "CupSoda" },
   { id: "cold_drink", nameAz: "Soyuq İçkilər", nameEn: "Cold Drinks", icon: "Milk" },
   { id: "milli_sweet", nameAz: "Şirniyyatlar", nameEn: "Traditional Sweets", icon: "Cookie" },
@@ -74,13 +75,12 @@ export const menuItems: MenuItem[] = [
     id: "h1",
     nameAz: "Espresso",
     nameEn: "Espresso",
-    descriptionAz: "Zəngin ətirli, dolğun bədənli və möhtəşəm köpüklü klassik espresso.",
+    descriptionAz: "Zəngin ətirli, dolğun və köpüklü klassik espresso.",
     descriptionEn: "Richly aromatic, full-bodied classic single espresso with perfect crema.",
     price: 3.00,
     category: "coffee",
     image: "https://aeropress.com/cdn/shop/articles/Espresso-cup-with-coffee-beans_33509211-52c9-4e4a-af95-3984ad1d8d36_600x.jpg?v=1759798851",
     tags: ["hot"],
-    options: { sugar: true }
   },
   {
     id: "h2",
@@ -92,7 +92,6 @@ export const menuItems: MenuItem[] = [
     category: "coffee",
     image: "https://img.magnific.com/free-photo/cup-coffee-table-grey-background_1220-7312.jpg",
     tags: ["hot"],
-    options: { sugar: true }
   },
   {
     id: "h3",
@@ -104,19 +103,17 @@ export const menuItems: MenuItem[] = [
     category: "coffee",
     image: "https://myeverydaytable.com/wp-content/uploads/americano-1024x576.png",
     tags: ["hot"],
-    options: { sugar: true, size: true }
   },
   {
     id: "h4",
     nameAz: "Kapuçino",
     nameEn: "Cappuccino",
-    descriptionAz: "Espresso, buxarlanmış isti süd və məxmər kimi qalın elastik süd köpüyü.",
+    descriptionAz: "Espresso, buxarlanmış isti süd və məxmər kimi süd köpüyü.",
     descriptionEn: "Classic espresso combined with warm steamed milk and thick velvety microfoam.",
     price: 5.00,
     category: "coffee",
     image: "https://coffee.az/wp-content/uploads/2022/09/nathan-dumlao-XOhI_kW_TaM-unsplash-edited-780x470.jpg",
     tags: ["hot"],
-    options: { milk: true, size: true, sugar: true },
     allergens: ["Süd / Lactose"]
   },
   {
@@ -130,7 +127,6 @@ export const menuItems: MenuItem[] = [
     image: "https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&q=80&w=600",
     isPopular: true,
     tags: ["hot"],
-    options: { milk: true, size: true, sugar: true },
     allergens: ["Süd / Lactose"]
   },
   {
@@ -143,7 +139,6 @@ export const menuItems: MenuItem[] = [
     category: "coffee",
     image: "https://images.unsplash.com/photo-1577968897966-3d4325b36b61?auto=format&fit=crop&q=80&w=600",
     tags: ["hot"],
-    options: { milk: true, sugar: true },
     allergens: ["Süd / Lactose"]
   },
   {
@@ -156,20 +151,18 @@ export const menuItems: MenuItem[] = [
     category: "coffee",
     image: "https://podmkr.com/wp-content/uploads/2023/11/latte-macchiato-600x400.png",
     tags: ["hot"],
-    options: { milk: true, size: true, sugar: true },
     allergens: ["Süd / Lactose"]
   },
   {
     id: "h8",
     nameAz: "Moka",
     nameEn: "Mocha",
-    descriptionAz: "Espressor, Belçika şokoladı sousu, buxarlanmış isti süd və şokoladlı toxunuş.",
+    descriptionAz: "Espresso, Belçika şokoladı sousu, buxarlanmış isti süd və şokoladlı ləzzət.",
     descriptionEn: "Fusing premium espresso with rich chocolate sauce and freshly-steamed milk.",
     price: 5.00,
     category: "coffee",
     image: "https://ichef.bbci.co.uk/food/ic/food_16x9_1600/recipes/the_perfect_mocha_coffee_29100_16x9.jpg",
     tags: ["hot"],
-    options: { milk: true, size: true },
     allergens: ["Süd / Lactose"]
   },
   {
@@ -182,7 +175,6 @@ export const menuItems: MenuItem[] = [
     category: "coffee",
     image: "https://www.cremashop.eu/content/www.crema.fi/media/recipe/raf-coffee/ingredients_7be4fbcfbcca29905a1ddc9288fe409a.jpeg",
     tags: ["hot"],
-    options: { sugar: true },
     allergens: ["Süd / Lactose"]
   },
   {
@@ -195,7 +187,6 @@ export const menuItems: MenuItem[] = [
     category: "coffee",
     image: "https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&q=80&w=600",
     tags: ["cold"],
-    options: { milk: true, sugar: true },
     allergens: ["Süd / Lactose"]
   },
   {
@@ -208,7 +199,17 @@ export const menuItems: MenuItem[] = [
     category: "coffee",
     image: "https://www.kahvegunlukleri.com/wp-content/uploads/2025/09/iced-americano-recipe-1024x6831-2-800x400.webp",
     tags: ["cold"],
-    options: { sugar: true }
+  },
+  {
+    id: "c3",
+    nameAz: "Aerokano (Aerocano)",
+    nameEn: "Aerocano",
+    descriptionAz: "Buzlu espresso və suyun buxar borusu ilə çalınaraq əldə edilən zərif köpüklü, ipək teksturalı fərqli soyuq kofe.",
+    descriptionEn: "A cold coffee experience featuring espresso and water textured with a steam wand to create a velvety, microfoamed finish.",
+    price: 4.00,
+    category: "coffee",
+    image: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&q=80&w=600",
+    tags: ["cold"],
   },
   {
     id: "h10",
@@ -221,6 +222,83 @@ export const menuItems: MenuItem[] = [
     image: "https://static01.nyt.com/images/2021/08/15/magazine/affogato/affogato-superJumbo-v2.jpg?format=pjpg&quality=75&auto=webp&disable=upscale",
     isNew: true,
     tags: ["hot", "cold"],
+    allergens: ["Süd / Lactose"]
+  },
+  {
+    id: "h11",
+    nameAz: "Cortado",
+    nameEn: "Cortado",
+    descriptionAz: "Bərabər nisbətdə espresso və buxarlanmış isti südün zərif, lakin sıx balansı.",
+    descriptionEn: "A balanced coffee consisting of equal parts espresso and warm steamed milk.",
+    price: 5.00,
+    category: "coffee",
+    image: "https://www.foodandwine.com/thmb/mlf4mS6C08bh5zYpQ_vftGzP32s=/750x0/filters:no_upscale():max_bytes(150000):strip_icc()/Partners-Cortado-FT-BLOG0523-7e4f50be961e4a6490fdfa5a34d6e0f5.jpg",
+    isNew: true,
+    tags: ["hot"],
+    allergens: ["Süd / Lactose"]
+  },
+  {
+    id: "h12",
+    nameAz: "İspan Lattesi (Spanish Latte)",
+    nameEn: "Spanish Latte",
+    descriptionAz: "Espresso, buxarlanmış süd və şirin qatılaşdırılmış südün ləziz vəhdəti.",
+    descriptionEn: "A sweet espresso-based drink made with steamed milk and sweetened condensed milk.",
+    price: 5.00,
+    category: "coffee",
+    image: "https://fancifuleats.com/wp-content/uploads/2024/04/iced-spanish-latte-2.jpg",
+    isNew: true,
+    tags: ["hot"],
+    allergens: ["Süd / Lactose"]
+  },
+
+  // --- MILKSHAKES ---
+  {
+    id: "ms1",
+    nameAz: "Vanilli Milkşeyk",
+    nameEn: "Vanilla Milkshake",
+    descriptionAz: "Qaymaqlı vanilli dondurma, soyuq süd və təbii vanil ekstraktı ilə mikserdə çalınmış xüsusi kokteyl.",
+    descriptionEn: "Classic velvety milkshake whipped with vanilla ice cream, rich chilled milk, and natural vanilla flavor.",
+    price: 5.00,
+    category: "milkshake",
+    image: "https://cdn.mygingergarlickitchen.com/images_webp/800px/800px-vanilla-milkshake-recipe-2.webp",
+    tags: ["cold"],
+    allergens: ["Süd / Lactose"]
+  },
+  {
+    id: "ms2",
+    nameAz: "Kokoslu Milkşeyk",
+    nameEn: "Coconut Milkshake",
+    descriptionAz: "Tropik kokos dadı, kremli vanil dondurması və sərin südün ecazkar harmoniyası.",
+    descriptionEn: "Exotic tropical coconut blended with creamy ice cream and chilled fresh milk.",
+    price: 5.00,
+    category: "milkshake",
+    image: "https://recettes.vedrenne.fr/1217-large_default/coconut-milkshake.jpg",
+    tags: ["cold"],
+    allergens: ["Süd / Lactose"]
+  },
+  {
+    id: "ms3",
+    nameAz: "Kivili Milkşeyk",
+    nameEn: "Kiwi Milkshake",
+    descriptionAz: "Təzə kivi dadı, sərin süd və dondurmanın fərahlandırıcı və vitaminli sintezi.",
+    descriptionEn: "Refreshing green kiwi flavor blended perfectly with rich ice cream and fresh milk.",
+    price: 5.00,
+    category: "milkshake",
+    image: "https://garajpizzaburger.com/menu/resimler/800x800-1458913391136.jpg",
+    tags: ["cold"],
+    allergens: ["Süd / Lactose"]
+  },
+  {
+    id: "ms4",
+    nameAz: "Çiyələkli Milkşeyk",
+    nameEn: "Strawberry Milkshake",
+    descriptionAz: "Şirin çiyələk dadlı, kremli dondurma və təbii süd ilə hazırlanan unudulmaz klassik.",
+    descriptionEn: "All-time favorite blend of sweet strawberry puree, rich vanilla ice cream, and cold milk.",
+    price: 5.00,
+    category: "milkshake",
+    image: "https://images.unsplash.com/photo-1579954115545-a95591f28bfc?auto=format&fit=crop&q=80&w=600",
+    isPopular: true,
+    tags: ["cold"],
     allergens: ["Süd / Lactose"]
   },
 
@@ -244,7 +322,7 @@ export const menuItems: MenuItem[] = [
     descriptionEn: "A sun-kissed mix of sweet mango, exotic passionfruit nectar, fresh lime, and soda.",
     price: 5.00,
     category: "lemonade",
-    image: "https://cakelab.uz/uploads/products/1_1755100170.jpg",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS722XbfR1Z-1dueYEAd578b17jy-BtRur-v-BlzjU3xMJIVeuL6EST1QI&s=10",
     isPopular: true,
     tags: ["cold"]
   },
@@ -263,7 +341,7 @@ export const menuItems: MenuItem[] = [
     id: "l4",
     nameAz: "Bubble Gum Limonad",
     nameEn: "Bubble Gum Lemonade",
-    descriptionAz: "Uşaqlıq xatirələrini canlandıran şirin bubble gum ətirli və buzlu fərqli rəngarəng limonad.",
+    descriptionAz: "Uşaqlıq xatirələrini canlandıran şirin bubble gum ətirli və buzlu rəngarəng limonad.",
     descriptionEn: "Playful sweet bubble gum flavor mixed with zesty citrus lemonade and crushed ice.",
     price: 5.00,
     category: "lemonade",
@@ -275,11 +353,11 @@ export const menuItems: MenuItem[] = [
     id: "l5",
     nameAz: "Citrus Limonad",
     nameEn: "Citrus Lemonade",
-    descriptionAz: "Təzə sıxılmış portaxal, rəngli qreypfrut və limon şirəsinin canlandırıcı sitrus sintezi.",
+    descriptionAz: "Təzə sıxılmış portağal, rəngli qreypfrut və limon şirəsinin canlandırıcı sintezi.",
     descriptionEn: "Deeply refreshing combination of freshly-squeezed orange, red grapefruit, and lemon juices.",
     price: 5.00,
     category: "lemonade",
-    image: "https://safiabakery.uz/uploads/products/477_1776764838.jpg",
+    image: "https://cozycravings.com/wp-content/uploads/2022/04/DSC_3444-2.jpg",
     tags: ["cold"]
   },
   {
@@ -297,7 +375,7 @@ export const menuItems: MenuItem[] = [
     id: "l7",
     nameAz: "Mojito Limonad",
     nameEn: "Mojito Lemonade",
-    descriptionAz: "Klassik təravət: bol təzə nanə yarpaqları, əzilmiş laym parçaları, şəkər şərbəti və buz.",
+    descriptionAz: "Klassik təravət: bol təzə nanə yarpaqları, əzilmiş laym parçaları, şərbət və buz.",
     descriptionEn: "Ultra-crisp recipe including thoroughly muddled fresh mint leaves, lime slices, sugar syrup, and soda.",
     price: 5.00,
     category: "lemonade",
@@ -321,22 +399,22 @@ export const menuItems: MenuItem[] = [
     id: "t2",
     nameAz: "Fincan Çay",
     nameEn: "Cup of Tea",
-    descriptionAz: "Zərif və sürətli isti fincanda təqdim edilən təbii qara çay.",
+    descriptionAz: "Fincanda isti təbii qara çay.",
     descriptionEn: "Quick and warm individual portion of freshly brewed aromatic black tea.",
     price: 0.50,
     category: "tea",
-    image: "https://s3.camellia-sinensis.com/cmsUpload%2F1725457599560-Prix+d%27une+tasse.jpg",
+    image: "https://www.cumhuriyetpark.net/upload/urunler/fincan_cay_1.jpg",
     tags: ["hot"]
   },
   {
     id: "t3",
     nameAz: "Bitki Çayı (Çaynik)",
     nameEn: "Herbal Tea (Teapot)",
-    descriptionAz: "Şəfalı dağ bitkiləri: kəklikotu, nanə bədəni oxşayan, canlandırıcı sağlam çay dəsti.",
+    descriptionAz: "Şəfalı dağ bitkiləri tərkibli gümrahlandırıcı çay.",
     descriptionEn: "Wild healing herbs: hand-picked thyme, field mint, and chamomile steeped in a warm teapot.",
     price: 5.00,
     category: "tea",
-    image: "https://tealeavz.com/cdn/shop/articles/herbal-tea-and-caffeine-free-tea_520x500_e27bbb26-42bc-440a-8b4a-7deef12b174b.jpg?v=1736894916&width=1500",
+    image: "https://sia.az/storage/2018/01/06/strese-yi-gelen-bitki-aylar-nelerdir.jpg",
     tags: ["hot"]
   },
 
@@ -372,7 +450,6 @@ export const menuItems: MenuItem[] = [
     price: 1.50,
     category: "milli_sweet",
     image: "https://upload.wikimedia.org/wikipedia/commons/7/75/%C5%9E%C9%99k%C9%99rbura_Novruz_%C5%9Firniyyat%C4%B1.jpg",
-    tags: ["signature"]
   },
   {
     id: "m4",
@@ -382,7 +459,7 @@ export const menuItems: MenuItem[] = [
     descriptionEn: "Soft traditional sweet bread filled with a rich buttery-flour sweet stuffing (inner chalva).",
     price: 10.00,
     category: "milli_sweet",
-    image: "https://azza.az/wp-content/uploads/2021/05/lv5a5825-kopiya.jpg"
+    image: "qarabagketesi.jpeg"
   },
   {
     id: "m5",
@@ -392,7 +469,7 @@ export const menuItems: MenuItem[] = [
     descriptionEn: "Traditional soft cookies soaked in sweet lemon-flavored syrup, topped with hazelnut.",
     price: 10.00,
     category: "milli_sweet",
-    image: "https://saglamolun.az/images/stories/METBEX/sekerpare1.jpg"
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwbrYSaFsRShb0g6fSjmFP7WNMblOZ57PQMwj66UeHLw&s=10"
   },
   {
     id: "m6",
@@ -408,7 +485,7 @@ export const menuItems: MenuItem[] = [
     id: "m7",
     nameAz: "Donut (1 ədəd)",
     nameEn: "Donut (1 pc)",
-    descriptionAz: "Belçika şokolad qlazuru ilə örtülmüş, pambıq kimi yumşaq donut.",
+    descriptionAz: "Şokolad qlazuru ilə örtülmüş, pambıq kimi yumşaq donut.",
     descriptionEn: "Soft and fluffy yeast-raised donut topped with rich Belgian chocolate glaze.",
     price: 1.00,
     category: "milli_sweet",
@@ -429,7 +506,7 @@ export const menuItems: MenuItem[] = [
     id: "m9",
     nameAz: "Bermud Şirniyyatı (Qozlu, 1 kq)",
     nameEn: "Bermud Pastry (with Walnut, 1 kg)",
-    descriptionAz: "Üçbucaqlı formada kəsilmiş, qoz plitəsi dolğulu çıtır şirniyyat çeşidi.",
+    descriptionAz: "Üçbucaqlı formada kəsilmiş, qozlu şirniyyat çeşidi.",
     descriptionEn: "Distinctive triangular sweet pastry with rich caramel and toasted walnut core.",
     price: 10.00,
     category: "milli_sweet",
@@ -441,7 +518,7 @@ export const menuItems: MenuItem[] = [
     id: "d1",
     nameAz: "San Sebastian (1 dilim)",
     nameEn: "San Sebastian Cheesecake (1 slice)",
-    descriptionAz: "Ağızda əriyən daxili qumlu kremlilik və qızarmış səth. (+Şokolad sousu istəyə görə +1 AZN).",
+    descriptionAz: "Ağızda əriyən kremli içlik və qızarmış səth. (+Şokolad sousu istəyə görə +1 AZN).",
     descriptionEn: "Famous crustless burnt cheesecake with an ultra-creamy interior. (+Chocolate sauce option for +1 AZN).",
     price: 4.50,
     category: "dessert",
@@ -452,7 +529,7 @@ export const menuItems: MenuItem[] = [
     id: "d2",
     nameAz: "Tiramisu (1 dilim)",
     nameEn: "Tiramisu (1 slice)",
-    descriptionAz: "Kofe şərbətinə batırılmış savoyardi biskvitləri və xüsusi maskarpone kremi ilə İtalyan üslubu.",
+    descriptionAz: "Kofe şərbətinə batırılmış savoyardi biskvitləri və xüsusi maskarpone kremi ilə İtalyan üslublu keks.",
     descriptionEn: "Espresso-soaked ladyfingers layered with an airy and authentic mascarpone cream mousse.",
     price: 3.50,
     category: "dessert",
@@ -514,7 +591,7 @@ export const menuItems: MenuItem[] = [
     id: "d8",
     nameAz: "Spoonful (1 ədəd)",
     nameEn: "Spoonful Dessert (1 pc)",
-    descriptionAz: "Yumşaq şokolad qatı, kremli pudinq və biskvitin daxilində zərif qaşıqlıq desert sevinci.",
+    descriptionAz: "Yumşaq şokolad qatı, kremli pudinq və biskvitin daxilində zərif desert.",
     descriptionEn: "Luxurious creamy spoonful dessert with alternating layers of chocolate cream and genoise.",
     price: 2.50,
     category: "dessert",
@@ -553,7 +630,7 @@ export const menuItems: MenuItem[] = [
     descriptionEn: "Traditional crispy layered cake with a delicious velvety custard cream.",
     price: 14.00,
     category: "cake",
-    image: "https://images.unsplash.com/photo-1606890737304-57a1ca8a5b62?auto=format&fit=crop&q=80&w=600"
+    image: "/Gemini_Generated_Image_s4immxs4immxs4im.png"
   },
   {
     id: "tort3",
@@ -563,7 +640,7 @@ export const menuItems: MenuItem[] = [
     descriptionEn: "Dreamy coconut flakes, rich vanilla cream, almond notes, and premium white chocolate.",
     price: 13.00,
     category: "cake",
-    image: "https://images.unsplash.com/photo-1535141192574-5d4897c13636?auto=format&fit=crop&q=80&w=600",
+    image: "/Gemini_Generated_Image_33wvhy33wvhy33wv.png",
     isNew: true
   },
 
@@ -572,21 +649,21 @@ export const menuItems: MenuItem[] = [
     id: "f1",
     nameAz: "Mini Pizza (1 ədəd)",
     nameEn: "Mini Pizza (1 pc)",
-    descriptionAz: "Uşaqların və böyüklərin sevimlisi: pomidor sousu, kolbasa və ərimiş mozzarella pendiri.",
+    descriptionAz: "Uşaqların və böyüklərin sevimlisi: pomidor sousu, sosis və ərimiş mozzarella pendiri.",
     descriptionEn: "Perfectly baked personal mini pizza with zesty tomato sauce, sliced sausage, and melted cheese.",
     price: 1.00,
     category: "fast_food",
-    image: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&q=80&w=600"
+    image: "/minipizza.png"
   },
   {
     id: "f2",
     nameAz: "Hotdog (1 ədəd)",
     nameEn: "Classic Hot Dog (1 pc)",
-    descriptionAz: "Yumşaq hotdog bulkası, sousis, ketçup və mayonezin dadlı uyğunluğu.",
+    descriptionAz: "Yumşaq bulka və sosisin dadlı uyğunluğu.",
     descriptionEn: "Soft standard bun, toasted premium sausage, drizzled with sweet ketchup and light mayonnaise.",
     price: 0.70,
     category: "fast_food",
-    image: "https://images.unsplash.com/photo-1619740455993-9e612b1af08a?auto=format&fit=crop&q=80&w=600"
+    image: "/hotdog.png"
   },
   {
     id: "f3",
@@ -596,26 +673,26 @@ export const menuItems: MenuItem[] = [
     descriptionEn: "Classic thin lavash flatbread wrap stuffed with juicy grilled chicken breast pieces.",
     price: 2.00,
     category: "fast_food",
-    image: "https://images.unsplash.com/photo-1626700051175-6518c4793f4f?auto=format&fit=crop&q=80&w=600"
+    image: "/durumbalaca.png"
   },
   {
     id: "f4",
     nameAz: "Dürüm Xüsusi",
     nameEn: "Special Durum Wrap",
-    descriptionAz: "Göyərtilər, qızardılmış kartof, turşu xiyar və Vanilla kafesinin xüsusi şef sousu ilə zəngin dürüm.",
+    descriptionAz: "Bol toyuq əti, kartof fri, turşu xiyar və xüsusi mastersous ilə ləziz xüsusi dürüm.",
     descriptionEn: "Gourmet wrap packed with extra chicken, french fries, pickles, and our master secret sauce.",
     price: 3.00,
     category: "fast_food",
-    image: "https://images.unsplash.com/photo-1547058886-af3b315277f2?auto=format&fit=crop&q=80&w=600",
+    image: "/Durum.png",
     isPopular: true
   },
   {
     id: "f5",
     nameAz: "Kartof Fri",
     nameEn: "French Fries",
-    descriptionAz: "Xırtıldayan qızılı rəngli kartof fri dilimləri, yanında ketçup ilə servis edilir.",
+    descriptionAz: "Xırtıldayan qızılı rəngli kartof fri dilimləri.",
     descriptionEn: "Crispy salted golden french fries cooked to order, served with sweet tomato ketchup.",
-    price: 2.00,
+    price: 2.50,
     category: "fast_food",
     image: "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&q=80&w=600"
   },
@@ -623,11 +700,76 @@ export const menuItems: MenuItem[] = [
     id: "f6",
     nameAz: "Sendviç (1 ədəd)",
     nameEn: "Toasted Sandwich (1 pc)",
-    descriptionAz: "Tost çörəyi arasında dana vetçinası, kahı, təzə pomidor və süzmə dilim pendir.",
+    descriptionAz: "Tost çörəyi arasında kolbasa, təzə pomidor və süzmə dilim pendir.",
     descriptionEn: "Fresh toasted sandwich with tender ham, melted cheddar slice, crisp lettuce, and tomato.",
     price: 1.50,
     category: "fast_food",
-    image: "https://images.unsplash.com/photo-1509722747041-616f39b57569?auto=format&fit=crop&q=80&w=600",
+    image: "/Sendvic.png",
+    isNew: true
+  },
+  {
+    id: "f7",
+    nameAz: "Pepperoni Pizza",
+    nameEn: "Pepperoni Pizza",
+    descriptionAz: "Bol pepperoni kolbasası, xüsusi pomidor sousu və ərimiş mozzarella pendiri ilə hazırlanmış klassik pizza.",
+    descriptionEn: "Classic pizza topped with premium pepperoni slices, special tomato sauce, and melted mozzarella cheese.",
+    price: 10.00,
+    category: "fast_food",
+    image: "https://images.unsplash.com/photo-1628840042765-356cda07504e?auto=format&fit=crop&q=80&w=600",
+    isPopular: true
+  },
+  {
+    id: "f8",
+    nameAz: "Miks Pizza",
+    nameEn: "Mix Pizza",
+    descriptionAz: "Kolbasa, göbələk, şirin bibər, zeytun, pomidor və ərimiş mozzarella pendiri ilə zəngin qarışıq pizza.",
+    descriptionEn: "Richly topped pizza with sausage, mushrooms, bell peppers, olives, fresh tomatoes, and melted mozzarella cheese.",
+    price: 10.00,
+    category: "fast_food",
+    image: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&q=80&w=600",
+    isPopular: true
+  },
+  {
+    id: "f9",
+    nameAz: "Marqarita Pizza",
+    nameEn: "Margherita Pizza",
+    descriptionAz: "Klassik İtalyan ləzzəti: xüsusi pomidor sousu, bol mozzarella pendiri və təzə reyhan.",
+    descriptionEn: "Classic Italian taste: special tomato sauce, rich mozzarella cheese, and a delicate touch of fresh basil.",
+    price: 9.00,
+    category: "fast_food",
+    image: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&q=80&w=600"
+  },
+  {
+    id: "f10",
+    nameAz: "Şaurmalı Pizza",
+    nameEn: "Shawarma Pizza",
+    descriptionAz: "Xüsusi şaurma əti, turşu xiyar, özəl sous və ərimiş mozzarella pendiri ilə fərqli və ləziz pizza.",
+    descriptionEn: "Unique and delicious pizza topped with tender shawarma meat, pickles, special sauce, and melted mozzarella cheese.",
+    price: 10.00,
+    category: "fast_food",
+    image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&q=80&w=600",
+    isNew: true
+  },
+  {
+    id: "f11",
+    nameAz: "Şaurma",
+    nameEn: "Shawarma",
+    descriptionAz: "Xüsusi ədviyyatlı toyuq əti, turşu xiyar, kartof fri və özəl şaurma sousu ilə hazırlanmış klassik ləzzət.",
+    descriptionEn: "Classic shawarma made with specially seasoned chicken, pickles, french fries, and signature shawarma sauce.",
+    price: 3.50,
+    category: "fast_food",
+    image: "https://www.mecooks.com/wp-content/uploads/2025/10/IMGL1460-min-1536x1024.jpg",
+    isPopular: true
+  },
+  {
+    id: "f12",
+    nameAz: "Toyuq Naqqetsləri (Nuggets)",
+    nameEn: "Chicken Nuggets",
+    descriptionAz: "Qızılı və xırtıldayan çörək qırıntılarında qızardılmış yumşaq toyuq file parçaları.",
+    descriptionEn: "Tender chicken breast pieces fried to golden crispy perfection.",
+    price: 3.00,
+    category: "fast_food",
+    image: "https://wp-cdn.typhur.com/wp-content/uploads/2025/02/air-fryer-frozen-chicken-nuggets.jpg",
     isNew: true
   },
 
@@ -640,7 +782,7 @@ export const menuItems: MenuItem[] = [
     descriptionEn: "Deeply refreshing orange soda served chilled in 0.5L plastic bottle.",
     price: 1.50,
     category: "cold_drink",
-    image: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&q=80&w=600",
+    image: "/Fanta05.png",
     tags: ["cold"]
   },
   {
@@ -651,7 +793,7 @@ export const menuItems: MenuItem[] = [
     descriptionEn: "Refreshing fanta orange flavored soda in 300 ml plastic bottle.",
     price: 1.00,
     category: "cold_drink",
-    image: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&q=80&w=600",
+    image: "https://backend.magnit.tj/uploads/images/f8ed850946fdb85e457e7c21d6b86b08-1024x1024.jpg",
     tags: ["cold"]
   },
   {
@@ -662,7 +804,7 @@ export const menuItems: MenuItem[] = [
     descriptionEn: "Classic Fanta orange soda in a 1.0 liter bottle format.",
     price: 2.00,
     category: "cold_drink",
-    image: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&q=80&w=600",
+    image: "https://c7.alamy.com/comp/2G6227E/fanta-carbonated-drinks-orange-in-1-liter-plastic-bottles-istanbul-turkey-august-02-2020-isolated-on-a-white-background-2G6227E.jpg",
     tags: ["cold"]
   },
   {
@@ -673,7 +815,7 @@ export const menuItems: MenuItem[] = [
     descriptionEn: "Original recipe sweet Coca-Cola served iced in 0.5L plastic bottle.",
     price: 1.50,
     category: "cold_drink",
-    image: "https://images.unsplash.com/photo-1554866585-cd94860890b7?auto=format&fit=crop&q=80&w=600",
+    image: "/cola_0.5.png",
     tags: ["cold"],
     isPopular: true
   },
@@ -681,11 +823,11 @@ export const menuItems: MenuItem[] = [
     id: "sd5",
     nameAz: "Coca-Cola 0.3 L",
     nameEn: "Coca-Cola 0.3 L",
-    descriptionAz: "Kiçik plastik butulkada orijinal dadlı soyuq koka kora.",
+    descriptionAz: "Kiçik plastik butulkada orijinal dadlı soyuq Coca-Cola.",
     descriptionEn: "Classic original flavor Coca-Cola in 300 ml format.",
     price: 1.00,
     category: "cold_drink",
-    image: "https://images.unsplash.com/photo-1554866585-cd94860890b7?auto=format&fit=crop&q=80&w=600",
+    image: "https://strgimgr.b-cdn.net/img/product/840/57bdc9ff-d6e4-4b78-a1f0-a3a3bf8000d9.jpeg?width=384&height=384&quality=90",
     tags: ["cold"]
   },
   {
@@ -696,7 +838,7 @@ export const menuItems: MenuItem[] = [
     descriptionEn: "Family sized original flavor Coca-Cola bottle (1.0 liter).",
     price: 2.00,
     category: "cold_drink",
-    image: "https://images.unsplash.com/photo-1554866585-cd94860890b7?auto=format&fit=crop&q=80&w=600",
+    image: "https://i5.walmartimages.com/seo/Coca-Cola-Soda-Pop-1-Liter-Bottle_0e05ba8c-ed84-48a9-9a45-2335ff570366.8c5774b98e497248ee20e82c5fc3e72a.jpeg?odnHeight=573&odnWidth=573&odnBg=FFFFFF",
     tags: ["cold"]
   },
   {
@@ -707,7 +849,7 @@ export const menuItems: MenuItem[] = [
     descriptionEn: "Crisp lemon-lime flavored sparkling soda in a handy 0.5L plastic bottle.",
     price: 1.50,
     category: "cold_drink",
-    image: "https://images.unsplash.com/photo-1505253716362-afaea1d3d1af?auto=format&fit=crop&q=80&w=600",
+    image: "https://burgerella.ch/wp-content/uploads/sites/87/2024/03/sprite-0.5l.jpg.webp",
     tags: ["cold"]
   },
   {
@@ -718,29 +860,29 @@ export const menuItems: MenuItem[] = [
     descriptionEn: "Refreshing lemon and lime Sprite soda in 300 ml size.",
     price: 1.00,
     category: "cold_drink",
-    image: "https://images.unsplash.com/photo-1505253716362-afaea1d3d1af?auto=format&fit=crop&q=80&w=600",
+    image: "https://imageproxy.wolt.com/assets/688b9e9723fa16f725afc9d0?w=960",
     tags: ["cold"]
   },
   {
     id: "sd9",
     nameAz: "Sprite 1 L",
     nameEn: "Sprite 1 L",
-    descriptionAz: "Böyük bir litrlik butulkada limon daddı canlandırıcı soyuq Sprite.",
+    descriptionAz: "Böyük bir litrlik butulkada limon dadlı canlandırıcı soyuq Sprite.",
     descriptionEn: "Crisp dynamic lemon-lime bubble drink Sprite in 1.0L format.",
     price: 2.00,
     category: "cold_drink",
-    image: "https://images.unsplash.com/photo-1505253716362-afaea1d3d1af?auto=format&fit=crop&q=80&w=600",
+    image: "https://static.insales-cdn.com/r/afmYyRvxlN8/rs:fit:1140:1140:1/q:80/plain/images/products/1/3804/447573724/sprite-upakovka-6-sht-po-2-l-sladkaya-voda-pet.jpg@webp",
     tags: ["cold"]
   },
   {
     id: "sd10",
     nameAz: "Banka Coca-Cola",
     nameEn: "Canned Coca-Cola",
-    descriptionAz: "Metal dəmir bankada sərin və bol qazlı orijinal daddı koka-kola.",
+    descriptionAz: "Metal dəmir bankada sərin və bol qazlı orijinal daddı Coca-Cola.",
     descriptionEn: "Cold, freshly chilled original design metal can of Coca-Cola.",
     price: 2.00,
     category: "cold_drink",
-    image: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&q=80&w=600",
+    image: "https://strgimgr.b-cdn.net/sized/280/219397-04958729b95919c4ee1e29e9af654376.jpg?quality=80",
     tags: ["cold"],
     isNew: true
   },
@@ -752,7 +894,7 @@ export const menuItems: MenuItem[] = [
     descriptionEn: "Super chilled standard metal can of sweet orange flavored Fanta.",
     price: 2.00,
     category: "cold_drink",
-    image: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&q=80&w=600",
+    image: "https://imageproxy.wolt.com/assets/688b9bd9b2b18bf1da536f61",
     tags: ["cold"],
     isNew: true
   },
@@ -764,7 +906,7 @@ export const menuItems: MenuItem[] = [
     descriptionEn: "Crisp and refreshing lemon-lime soda in a classic cold metal can.",
     price: 2.00,
     category: "cold_drink",
-    image: "https://images.unsplash.com/photo-1505253716362-afaea1d3d1af?auto=format&fit=crop&q=80&w=600",
+    image: "https://main-cdn.sbermegamarket.ru/big2/hlr-system/185/401/447/581/513/28/100023688333b0.png",
     tags: ["cold"],
     isNew: true
   },
@@ -776,7 +918,7 @@ export const menuItems: MenuItem[] = [
     descriptionEn: "Rich multi-fruit natural chilled Cappy juice in 0.5L plastic format.",
     price: 1.60,
     category: "cold_drink",
-    image: "https://images.unsplash.com/photo-1600271886742-f049cd451bba?auto=format&fit=crop&q=80&w=600",
+    image: "https://imageproxy.wolt.com/assets/688b9bd9b2b18bf1da536f6b?w=1920",
     tags: ["cold"]
   },
   {
@@ -787,7 +929,7 @@ export const menuItems: MenuItem[] = [
     descriptionEn: "Convenient single-sip portion of fresh blended Cappy fruit juice.",
     price: 1.00,
     category: "cold_drink",
-    image: "https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?auto=format&fit=crop&q=80&w=600",
+    image: "https://static.ticimax.cloud/cdn-cgi/image/width=370,quality=85/35880/uploads/urunresimleri/buyuk/kategoriler-350-b3.jpeg",
     tags: ["cold"]
   },
 
@@ -800,7 +942,7 @@ export const menuItems: MenuItem[] = [
     descriptionEn: "Delicious classic creamy vanilla scoop prepared with clean organic milk.",
     price: 0.50,
     category: "ice_cream",
-    image: "https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?auto=format&fit=crop&q=80&w=600",
+    image: "sade_marojna.png",
     tags: ["cold"],
     allergens: ["Süd / Lactose"]
   },
@@ -812,7 +954,7 @@ export const menuItems: MenuItem[] = [
     descriptionEn: "Rich gourmet scoop featuring premium Belgian chocolate, pistachio, or salted caramel.",
     price: 1.00,
     category: "ice_cream",
-    image: "https://images.unsplash.com/photo-1501443715940-a53b6847b40e?auto=format&fit=crop&q=80&w=600",
+    image: "/premium_marojna.png",
     tags: ["cold"],
     isPopular: true,
     allergens: ["Süd / Lactose"]
